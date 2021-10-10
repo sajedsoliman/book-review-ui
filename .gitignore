@@ -1,0 +1,6 @@
+node_modules
+.env
+dist/*.js
+dist/*.js.map
+public
+dist11
