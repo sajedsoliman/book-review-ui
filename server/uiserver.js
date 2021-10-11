@@ -1,6 +1,5 @@
 // imports
 import dotenv from "dotenv";
-import path from "path";
 import proxy from "http-proxy-middleware";
 import express from "express";
 import SourceMapSupport from "source-map-support";
@@ -32,8 +31,8 @@ app.use(express.static("dist"));
 // proxy middleware
 const proxyTarget = process.env.PROXY_TARGET;
 if (proxyTarget) {
-	app.use("/graphql", proxy({ target: proxyTarget }));
-	app.use("/auth", proxy({ target: proxyTarget }));
+	app.use("/graphql", proxy({ target: proxyTarget, changeOrigin: true }));
+	app.use("/auth", proxy({ target: proxyTarget, changeOrigin: true }));
 }
 
 app.get("/env.js", (req, res) => {
@@ -50,7 +49,7 @@ app.get("*", (req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(3000, () => console.log(`http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 if (module.hot) {
 	module.hot.accept("./render.jsx");
